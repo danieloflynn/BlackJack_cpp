@@ -87,6 +87,7 @@ void Player::updateHandValue()
     int aceCount = 0;
     for (Card c : cardsHeld)
     {
+        cout << c.showValueShort();
         if (c.showValueShort() == "A")
             aceCount++;
         handValue += cardValues[c.showValueShort()];
@@ -97,6 +98,8 @@ void Player::updateHandValue()
     {
         handValue -= 10;
     }
+
+    cout << "Hand value: " << handValue;
 };
 
 int Player::getHandValue()

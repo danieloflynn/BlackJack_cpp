@@ -8,5 +8,4 @@ Dealer::Dealer() : Player()
 {
     name = "Dealer";
     cash = 10000;
-    cout << "In the dealer";
 };

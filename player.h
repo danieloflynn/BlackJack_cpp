@@ -30,6 +30,7 @@ public:
     std::string showCardsShort();
     void updateHandValue();
     int getHandValue();
+    void takeTurn();
     void win();
     void lose();
 };

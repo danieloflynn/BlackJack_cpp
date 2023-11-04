@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include "Dealer.h"
 #include "player.h"
 #include "deck.h"
 
@@ -13,6 +14,7 @@ class BlackJack
 private:
     int numPlayers;
     std::vector<Player *> players;
+    Dealer dealer;
     Deck deck;
 
 public:

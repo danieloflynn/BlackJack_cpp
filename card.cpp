@@ -12,8 +12,8 @@ Card::Card(int suitidx, int valueidx)
     shortSuits = {"S", "H", "D", "C"};
     values = {"", "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
     shortValues = {"", "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
-    suitidx = suitidx;
-    valueidx = valueidx;
+    this->suitidx = suitidx;
+    this->valueidx = valueidx;
     suit = suits[suitidx];
     value = values[valueidx];
 }

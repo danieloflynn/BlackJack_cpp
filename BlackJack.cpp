@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "BlackJack.h"
+#include "Dealer.h"
 #include "player.h"
 #include "deck.h"
 
@@ -14,9 +15,9 @@ BlackJack::BlackJack()
     cout << "Please enter the number of players: ";
     cin >> numPlayers;
     // Need to change this to error handling
-    if (numPlayers < 2)
+    if (numPlayers < 1)
     {
-        cout << "Error: need at least 2 players to play Black Jack";
+        cout << "Error: need at least 1 player to play Black Jack";
     }
 
     // Initialize the players
@@ -26,11 +27,31 @@ BlackJack::BlackJack()
         cout << "Player " << i + 1 << " ";
         players.push_back(new Player(3000));
     }
+
+    Deck deck;
 };
 
 // This will be where the game is started
-void BlackJack::play(){
+void BlackJack::play()
+{
+    // Deal cards to the dealer
+    dealer.clearHand();
+    dealer.dealCards(deck.drawCards(2));
 
+    // Deal cards to each of the players
+    for (Player *player : players)
+    {
+        player->clearHand();
+        player->dealCards(deck.drawCards(2));
+    }
+
+    cout << dealer.showCardsShort() << "\n";
+    for (Player *player : players)
+    {
+        string name = player->getName();
+        cout << "It's " << name << "'s turn.\n";
+        cout << "You have" << player->showCardsShort() << ", value " << player->getHandValue() << "\n";
+    }
 };
 
 // Get a list of player names

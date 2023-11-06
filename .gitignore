@@ -1,4 +1,9 @@
-*.dysm
+*.dYSM/
 *.yml
 *.out
 *.json
+card
+test
+output.out
+test
+*.plist

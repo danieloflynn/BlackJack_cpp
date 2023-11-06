@@ -15,12 +15,14 @@ protected:
     float cash;
 
 private:
+public:
     int handValue;
     std::vector<Card> cardsHeld;
-    std::unordered_map<std::string, int> cardValues;
-    float currentBet;
 
-public:
+    float currentBet;
+    bool blackJack;
+    bool isSoft;
+    static std::unordered_map<std::string, int> cardValues;
     Player();
     Player(float cash);
     std::string getName();
@@ -32,7 +34,7 @@ public:
     void updateHandValue();
     int getHandValue();
     void makeBet();
-    void takeTurn();
+    string makeDecision();
     void win();
     void lose();
 };

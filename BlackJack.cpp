@@ -25,7 +25,8 @@ BlackJack::BlackJack()
     for (int i = 0; i < numPlayers; i++)
     {
         cout << "Player " << i + 1 << " ";
-        players.push_back(new Player(3000));
+        Player p(10000);
+        players.push_back(p);
     }
 
     Deck deck;
@@ -39,18 +40,20 @@ void BlackJack::play()
     dealer.dealCards(deck.drawCards(2));
 
     // Deal cards to each of the players
-    for (Player *player : players)
+    for (Player &player : players)
     {
-        player->clearHand();
-        player->dealCards(deck.drawCards(2));
+        player.clearHand();
+        player.makeBet();
+        player.dealCards(deck.drawCards(2));
     }
 
     cout << dealer.showCardsShort() << "\n";
-    for (Player *player : players)
+    for (Player &player : players)
     {
-        string name = player->getName();
+        string name = player.getName();
         cout << "It's " << name << "'s turn.\n";
-        cout << "You have" << player->showCardsShort() << ", value " << player->getHandValue() << "\n";
+        cout << "You have" << player.showCardsShort() << ", value " << player.getHandValue() << "\n";
+        player.makeDecision();
     }
 };
 
@@ -58,9 +61,9 @@ void BlackJack::play()
 string BlackJack::getPlayerNames()
 {
     string playerNames = "";
-    for (Player *p : players)
+    for (Player p : players)
     {
-        playerNames += p->getName() + "\n";
+        playerNames += p.getName() + "\n";
     }
     return playerNames;
 }

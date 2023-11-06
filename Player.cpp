@@ -10,30 +10,32 @@ using namespace std;
 
 Player::Player()
 {
-    cardValues = {
-        {"2", 2},
-        {"3", 3},
-        {"4", 4},
-        {"5", 5},
-        {"6", 6},
-        {"7", 7},
-        {"8", 8},
-        {"9", 9},
-        {"10", 10},
-        {"J", 10},
-        {"Q", 10},
-        {"K", 10},
-        {"A", 11},
-    };
-    cardsHeld = {};
 }
 
 Player::Player(float cash)
 {
+    cardsHeld = {};
+    Player();
     currentBet = 0;
     cout << "Please enter your name: ";
     cin >> name;
     this->cash = cash;
+};
+
+std::unordered_map<std::string, int> Player::cardValues = {
+    {"2", 2},
+    {"3", 3},
+    {"4", 4},
+    {"5", 5},
+    {"6", 6},
+    {"7", 7},
+    {"8", 8},
+    {"9", 9},
+    {"10", 10},
+    {"J", 10},
+    {"Q", 10},
+    {"K", 10},
+    {"A", 11},
 };
 
 // Returns the player's name
@@ -87,12 +89,10 @@ void Player::updateHandValue()
     int aceCount = 0;
     for (Card c : cardsHeld)
     {
-        cout << c.showValueShort();
-        cout << cardValues["10"];
 
         if (c.showValueShort() == "A")
             aceCount++;
-        handValue += cardValues[c.showValueShort()];
+        handValue += cardValues.at(c.showValueShort());
     }
 
     // If we have aces and we are bust can set ace value to 1 instead of 11
@@ -100,13 +100,11 @@ void Player::updateHandValue()
     {
         handValue -= 10;
     }
-
-    cout << "Hand value: " << handValue;
 };
 
 int Player::getHandValue()
 {
-    return handValue;
+    return this->handValue;
 };
 
 void Player::makeBet()
@@ -142,6 +140,13 @@ void Player::makeBet()
     cout << name << " bet " << betAmount << "\n";
     currentBet += betAmount;
 };
+
+string Player::makeDecision()
+{
+    string response;
+    cin >> response;
+    return response;
+}
 
 void Player::win()
 {

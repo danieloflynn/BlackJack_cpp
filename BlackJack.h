@@ -13,7 +13,7 @@ class BlackJack
 {
 private:
     int numPlayers;
-    std::vector<Player *> players;
+    std::vector<Player> players;
     Dealer dealer;
     Deck deck;
 

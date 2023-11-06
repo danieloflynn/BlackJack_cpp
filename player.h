@@ -18,6 +18,7 @@ private:
     int handValue;
     std::vector<Card> cardsHeld;
     std::unordered_map<std::string, int> cardValues;
+    float currentBet;
 
 public:
     Player();
@@ -30,6 +31,7 @@ public:
     std::string showCardsShort();
     void updateHandValue();
     int getHandValue();
+    void makeBet();
     void takeTurn();
     void win();
     void lose();

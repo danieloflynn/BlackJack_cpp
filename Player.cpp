@@ -30,10 +30,10 @@ Player::Player()
 
 Player::Player(float cash)
 {
-
+    currentBet = 0;
     cout << "Please enter your name: ";
     cin >> name;
-    cash = cash;
+    this->cash = cash;
 };
 
 // Returns the player's name
@@ -88,6 +88,8 @@ void Player::updateHandValue()
     for (Card c : cardsHeld)
     {
         cout << c.showValueShort();
+        cout << cardValues["10"];
+
         if (c.showValueShort() == "A")
             aceCount++;
         handValue += cardValues[c.showValueShort()];
@@ -105,4 +107,50 @@ void Player::updateHandValue()
 int Player::getHandValue()
 {
     return handValue;
+};
+
+void Player::makeBet()
+{
+    float betAmount = -1;
+    while (betAmount == -1)
+    {
+        float newBet;
+        cout << "Please enter a bet amount ";
+        cin >> newBet;
+        if (cin.fail())
+        {
+            cout << "Error: Please enter a number.\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+        else
+        {
+            if (newBet <= 0)
+            {
+                cout << "Please enter a bet amount greater than 0.\n";
+            }
+            else if (newBet > cash)
+            {
+                cout << "Not enough cash to make this bet. You currently have " << cash << " cash.\n";
+            }
+            else
+            {
+                betAmount = newBet;
+            }
+        }
+    }
+    cout << name << " bet " << betAmount << "\n";
+    currentBet += betAmount;
+};
+
+void Player::win()
+{
+    cash += currentBet;
+    currentBet = 0;
+};
+
+void Player::lose()
+{
+    cash -= currentBet;
+    currentBet = 0;
 }

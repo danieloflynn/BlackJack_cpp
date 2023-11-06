@@ -12,7 +12,10 @@ using namespace std;
 int main()
 {
     int a = 2;
+    // float b = 10;
+
     BlackJack B;
     cout << B.getPlayerNames();
+    B.play();
     return 0;
 }

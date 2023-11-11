@@ -15,6 +15,7 @@ Player::Player()
 
 Player::Player(float cash)
 {
+    handValue = 0;
     cardsHeld = {};
     Player();
     currentBet = 0;
@@ -123,7 +124,7 @@ void Player::makeBet()
     while (betAmount == -1)
     {
         float newBet;
-        cout << "Please enter a bet amount: ";
+        cout << name << " please enter a bet amount: ";
         cin >> newBet;
         if (cin.fail())
         {

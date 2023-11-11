@@ -35,7 +35,7 @@ public:
     bool isBlackJack();
     void makeBet();
     void getOptions();
-    char makeDecision();
+    virtual char makeDecision();
     void newTurn();
     void win();
     void lose();

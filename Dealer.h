@@ -14,6 +14,8 @@ private:
 
 public:
     Dealer();
+    std::string oneCard();
+    char makeDecision();
 };
 
 #endif

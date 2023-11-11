@@ -38,6 +38,8 @@ public:
     bool isBlackJack(int handNo = 0);
     void makeBet(int handNo = 0);
     bool canSplit(int handNo = 0);
+    bool canSplit(int handNo = 0);
+    bool canSurrender(int handNo = 0);
     void getOptions();
     virtual char makeDecision(int handNo = 0);
     void newTurn();

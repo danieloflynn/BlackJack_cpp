@@ -23,6 +23,7 @@ int main()
     // string s = player.showCardsShort();
     // int i = player.getHandValue();
     // cout << "You have" << player.showCardsShort() << ", value " << player.getHandValue() << "\n";
+
     BlackJack B;
     // cout << B.getPlayerNames();
     B.play();

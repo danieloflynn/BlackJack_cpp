@@ -46,15 +46,42 @@ void BlackJack::play()
         player.makeBet();
         player.dealCards(deck.drawCards(2));
     }
-
+    // Show the dealer cards.
     cout << dealer.showCardsShort() << "\n";
     for (Player &player : players)
     {
-        string name = player.getName();
-        cout << "It's " << name << "'s turn.\n";
-        cout << "You have" << player.showCardsShort() << ", value " << player.getHandValue() << "\n";
-        player.makeDecision();
+        takeTurn(&player);
     }
+
+    // Dealer's turn
+    bool stand = false;
+    while (dealer.getHandValue() < 21 && !stand)
+    {
+        cout << "It's the dealer's turn.\n";
+        cout << "You have" << dealer.showCardsShort() << ", value " << dealer.getHandValue() << "\n";
+        // Decision goes out to the dealer object, allowing for option to add AI dealers
+        char decision = dealer.makeDecision();
+        switch (decision)
+        {
+        case 'h':
+            hit(&dealer);
+            /* code */
+            break;
+        case 's':
+            stand = true;
+            break;
+        default:
+            cout << "Error: please enter a valid char\n";
+            break;
+        }
+    }
+
+    if (dealer.getHandValue() > 21)
+    {
+        cout << "Dealer has gone bust \n";
+    }
+
+    cout << "You're done";
 };
 
 // Get a list of player names
@@ -66,4 +93,42 @@ string BlackJack::getPlayerNames()
         playerNames += p.getName() + "\n";
     }
     return playerNames;
-}
+};
+
+// Takes care of the turn logic
+void BlackJack::takeTurn(Player *player)
+{
+    bool stand = false;
+    string name = player->getName();
+    while (player->getHandValue() < 21 && !stand)
+    {
+        cout << "It's " << name << "'s turn.\n";
+        cout << "You have" << player->showCardsShort() << ", value " << player->getHandValue() << "\n";
+        // Decision goes out to the player object, allowing for option to add AI players
+        char decision = player->makeDecision();
+        switch (decision)
+        {
+        case 'h':
+            hit(player);
+            /* code */
+            break;
+        case 's':
+            stand = true;
+            break;
+        default:
+            cout << "Error: please enter a valid char\n";
+            break;
+        }
+    }
+
+    if (player->getHandValue() > 21)
+    {
+        cout << name << " has gone bust \n";
+    }
+};
+
+// Hit the player with another card
+void BlackJack::hit(Player *player)
+{
+    player->dealCard(deck.drawCard());
+};

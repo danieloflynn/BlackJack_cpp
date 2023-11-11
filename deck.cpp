@@ -2,6 +2,7 @@
 #include <vector>
 #include <string>
 #include <random>
+#include <algorithm>
 
 #include "card.h"
 #include "deck.h"

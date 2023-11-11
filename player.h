@@ -34,7 +34,8 @@ public:
     void updateHandValue();
     int getHandValue();
     void makeBet();
-    std::string makeDecision();
+    void getOptions();
+    char makeDecision();
     void win();
     void lose();
 };

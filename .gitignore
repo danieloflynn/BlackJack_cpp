@@ -7,3 +7,4 @@ test
 output.out
 test
 *.plist
+*.exe

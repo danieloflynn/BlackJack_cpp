@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <limits>
 
 #include "card.h"
 #include "player.h"
@@ -141,9 +142,15 @@ void Player::makeBet()
     currentBet += betAmount;
 };
 
-string Player::makeDecision()
+void Player::getOptions(){
+    // TODO: Add options for the player to have.
+};
+
+char Player::makeDecision()
 {
-    string response;
+    // getoptions();
+    cout << "type h to hit, s to stand: ";
+    char response;
     cin >> response;
     return response;
 }

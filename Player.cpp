@@ -6,6 +6,7 @@
 
 #include "card.h"
 #include "player.h"
+#include "hand.h"
 
 using namespace std;
 
@@ -15,6 +16,7 @@ Player::Player()
 
 Player::Player(float cash)
 {
+    hands = {};
     handValue = 0;
     cardsHeld = {};
     Player();
@@ -52,73 +54,57 @@ float Player::getCash()
     return cash;
 };
 
-// Adds card to cardsHeld
-void Player::dealCard(Card card)
+// Adds hand, used for splits
+void Player::addHand()
 {
-    cardsHeld.push_back(card);
-    updateHandValue();
+    Hand h;
+    hands.push_back(h);
+}
+
+// Adds card to cardsHeld
+void Player::dealCard(Card card, int handNo)
+{
+    if (handNo > hands.size() - 1)
+    {
+        throw runtime_error("Error: hand index out of bounds");
+    }
+    hands[handNo].dealCard(card);
 };
 
 // Add vector containing multiple cards to cardsHeld
-void Player::dealCards(vector<Card> cards)
+void Player::dealCards(vector<Card> cards, int handNo)
 {
-    cardsHeld.insert(cardsHeld.end(), cards.begin(), cards.end());
-    updateHandValue();
-};
-
-void Player::clearHand()
-{
-    cardsHeld.clear();
-    updateHandValue();
+    if (handNo > hands.size() - 1)
+    {
+        throw runtime_error("Error: hand index out of bounds");
+    }
+    hands[handNo].dealCards(cards);
 };
 
 // Shows the cards
-string Player::showCardsShort()
+string Player::showCardsShort(int handNo)
 {
-    string cds = "";
-    for (Card c : cardsHeld)
-    {
-        cds += c.showValueShort() + " ";
-    }
-    cds.pop_back();
+    string cds = hands[handNo].showCardsShort();
     return cds;
 };
 
-// Evaluates the player's hand
-void Player::updateHandValue()
+void Player::clearHands()
 {
-    handValue = 0;
-    int aceCount = 0;
-    for (Card c : cardsHeld)
-    {
-
-        if (c.showValueShort() == "A")
-            aceCount++;
-        handValue += cardValues.at(c.showValueShort());
-    }
-
-    // If we have aces and we are bust can set ace value to 1 instead of 11
-    for (int i = 0; i < aceCount && handValue > 21; i++)
-    {
-        handValue -= 10;
-    }
+    Hand h;
+    hands = {h};
 };
 
-int Player::getHandValue()
+int Player::getHandValue(int handNo)
 {
-    return this->handValue;
+    return hands[handNo].getHandValue();
 };
 
-bool Player::isBlackJack()
+bool Player::isBlackJack(int handNo)
 {
-    if (handValue == 21 && cardsHeld.size() == 2)
-    {
-        return true;
-    }
-    return false;
+    return hands[handNo].isBlackJack();
 }
 
-void Player::makeBet()
+void Player::makeBet(int handNo)
 {
     float betAmount = -1;
     while (betAmount == -1)
@@ -149,14 +135,15 @@ void Player::makeBet()
         }
     }
     cout << name << " bet " << betAmount << "\n";
-    currentBet += betAmount;
+    hands[handNo].makeBet(betAmount);
+    cash -= betAmount;
 };
 
 void Player::getOptions(){
     // TODO: Add options for the player to have.
 };
 
-char Player::makeDecision()
+char Player::makeDecision(int handNo)
 {
     // getoptions();
     cout << "type h to hit, s to stand: ";
@@ -169,25 +156,22 @@ void Player::newTurn(){
 
 };
 
-void Player::win()
+void Player::win(int handNo)
 {
-    cash += currentBet;
-    currentBet = 0;
+    cash += 2 * hands[handNo].currentBet;
 };
 
-void Player::lose()
+void Player::lose(int handNo)
 {
-    cash -= currentBet;
-    currentBet = 0;
+    // Do nothing for now
 }
 
-void Player::push()
+void Player::push(int handNo)
 {
-    currentBet = 0;
+    cash += hands[handNo].currentBet;
 }
 
-void Player::blackJack()
+void Player::blackJack(int handNo)
 {
-    cash += currentBet / 2;
-    currentBet = 0;
+    cash += 3 * hands[handNo].currentBet / 2;
 }

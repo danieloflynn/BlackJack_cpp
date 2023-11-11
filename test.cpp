@@ -25,7 +25,7 @@ int main()
     // cout << "You have" << player.showCardsShort() << ", value " << player.getHandValue() << "\n";
 
     BlackJack B;
-    // cout << B.getPlayerNames();
     B.play();
+
     return 0;
 }

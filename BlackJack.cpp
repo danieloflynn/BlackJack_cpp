@@ -54,33 +54,41 @@ void BlackJack::play()
     }
 
     // Dealer's turn
-    bool stand = false;
-    while (dealer.getHandValue() < 21 && !stand)
+    takeTurn(&dealer);
+
+    // Determine winners
+    int dealerHand = dealer.getHandValue();
+    for (Player &player : players)
     {
-        cout << "It's the dealer's turn.\n";
-        cout << "You have" << dealer.showCardsShort() << ", value " << dealer.getHandValue() << "\n";
-        // Decision goes out to the dealer object, allowing for option to add AI dealers
-        char decision = dealer.makeDecision();
-        switch (decision)
+
+        int playerHand = player.getHandValue();
+        char result = determineResult(playerHand, dealerHand);
+
+        switch (result)
         {
-        case 'h':
-            hit(&dealer);
-            /* code */
+        case 'w':
+            cout << player.getName() << " wins " << player.currentBet << "\n";
+            player.win();
             break;
-        case 's':
-            stand = true;
+        case 'l':
+            cout << player.getName() << " loses \n";
+            player.lose();
             break;
+        case 'p':
+            cout << player.getName() << " draws \n";
+            player.push();
+            break;
+        case 'b':
+            cout << player.getName() << ": BlackJack! \n";
+            player.blackJack();
+            break;
+
         default:
-            cout << "Error: please enter a valid char\n";
             break;
         }
-    }
 
-    if (dealer.getHandValue() > 21)
-    {
-        cout << "Dealer has gone bust \n";
+        cout << player.getName() << " has " << player.getCash() << " cash\n";
     }
-
     cout << "You're done";
 };
 
@@ -103,7 +111,7 @@ void BlackJack::takeTurn(Player *player)
     while (player->getHandValue() < 21 && !stand)
     {
         cout << "It's " << name << "'s turn.\n";
-        cout << "You have" << player->showCardsShort() << ", value " << player->getHandValue() << "\n";
+        cout << "You have " << player->showCardsShort() << ", value " << player->getHandValue() << "\n";
         // Decision goes out to the player object, allowing for option to add AI players
         char decision = player->makeDecision();
         switch (decision)
@@ -131,4 +139,33 @@ void BlackJack::takeTurn(Player *player)
 void BlackJack::hit(Player *player)
 {
     player->dealCard(deck.drawCard());
+};
+
+char BlackJack::determineResult(int playerHand, int dealerHand)
+{
+    // If player has gone bust, player loses (even if dealer is bust)
+    if (playerHand > 21)
+    {
+        return 'l'; // lose
+    }
+    else if (playerHand == dealerHand)
+    {
+        return 'p'; // push
+    }
+    else if (playerHand == 21)
+    {
+        return 'b'; // BlackJack
+    }
+    else if (dealerHand > 21)
+    {
+        return 'w'; // win
+    }
+    else if (playerHand > dealerHand)
+    {
+        return 'w'; // win
+    }
+    else
+    {
+        return 'l'; // player hand must be less than dealer hand, lose
+    }
 };

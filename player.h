@@ -20,7 +20,6 @@ public:
     std::vector<Card> cardsHeld;
 
     float currentBet;
-    bool blackJack;
     bool isSoft;
     static std::unordered_map<std::string, int> cardValues;
     Player();
@@ -33,11 +32,15 @@ public:
     std::string showCardsShort();
     void updateHandValue();
     int getHandValue();
+    bool isBlackJack();
     void makeBet();
     void getOptions();
     char makeDecision();
+    void newTurn();
     void win();
     void lose();
+    void push();
+    void blackJack();
 };
 
 #endif

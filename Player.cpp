@@ -108,13 +108,22 @@ int Player::getHandValue()
     return this->handValue;
 };
 
+bool Player::isBlackJack()
+{
+    if (handValue == 21 && cardsHeld.size() == 2)
+    {
+        return true;
+    }
+    return false;
+}
+
 void Player::makeBet()
 {
     float betAmount = -1;
     while (betAmount == -1)
     {
         float newBet;
-        cout << "Please enter a bet amount ";
+        cout << "Please enter a bet amount: ";
         cin >> newBet;
         if (cin.fail())
         {
@@ -153,7 +162,11 @@ char Player::makeDecision()
     char response;
     cin >> response;
     return response;
-}
+};
+
+void Player::newTurn(){
+
+};
 
 void Player::win()
 {
@@ -164,5 +177,16 @@ void Player::win()
 void Player::lose()
 {
     cash -= currentBet;
+    currentBet = 0;
+}
+
+void Player::push()
+{
+    currentBet = 0;
+}
+
+void Player::blackJack()
+{
+    cash += currentBet / 2;
     currentBet = 0;
 }

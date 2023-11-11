@@ -23,6 +23,7 @@ public:
     std::string getPlayerNames();
     void takeTurn(Player *player);
     void hit(Player *player);
+    char determineResult(int playerHand, int dealerHand);
 };
 
 #endif

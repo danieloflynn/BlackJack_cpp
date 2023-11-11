@@ -15,7 +15,7 @@ private:
 public:
     Dealer();
     std::string oneCard();
-    char makeDecision();
+    char makeDecision(int handNo = 0);
 };
 
 #endif

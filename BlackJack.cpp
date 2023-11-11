@@ -38,13 +38,13 @@ BlackJack::BlackJack()
 void BlackJack::play()
 {
     // Deal cards to the dealer
-    dealer.clearHand();
+    dealer.clearHands();
     dealer.dealCards(deck.drawCards(2));
 
     // Deal cards to each of the players
     for (Player &player : players)
     {
-        player.clearHand();
+        player.clearHands();
         player.makeBet();
         player.dealCards(deck.drawCards(2));
     }

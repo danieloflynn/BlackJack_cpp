@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <thread>
+#include <chrono>
 
 #include "BlackJack.h"
 #include "Dealer.h"
@@ -46,14 +48,28 @@ void BlackJack::play()
         player.makeBet();
         player.dealCards(deck.drawCards(2));
     }
+    this_thread::sleep_for(chrono::seconds(1));
+    cout << "Cards have been dealt \n";
+    this_thread::sleep_for(chrono::seconds(1));
+
     // Show the dealer cards.
-    cout << dealer.showCardsShort() << "\n";
+    cout << "Dealer is showing " << dealer.oneCard() << "\n";
     for (Player &player : players)
     {
+        this_thread::sleep_for(chrono::seconds(1));
+        cout << "It's " << player.getName() << "'s turn.\n";
+        this_thread::sleep_for(chrono::seconds(1));
+
+        cout << "You have " << player.showCardsShort() << ", value " << player.getHandValue() << "\n";
         takeTurn(&player);
     }
 
     // Dealer's turn
+
+    cout << "It's the dealer's turn.\n";
+    this_thread::sleep_for(chrono::seconds(1));
+    cout << "You have " << dealer.showCardsShort() << ", value " << dealer.getHandValue() << "\n";
+    this_thread::sleep_for(chrono::seconds(1));
     takeTurn(&dealer);
 
     // Determine winners
@@ -106,22 +122,22 @@ string BlackJack::getPlayerNames()
 // Takes care of the turn logic
 void BlackJack::takeTurn(Player *player)
 {
-    bool stand = false;
+    bool finished = false;
     string name = player->getName();
-    while (player->getHandValue() < 21 && !stand)
+    while (player->getHandValue() < 21 && !finished)
     {
-        cout << "It's " << name << "'s turn.\n";
-        cout << "You have " << player->showCardsShort() << ", value " << player->getHandValue() << "\n";
         // Decision goes out to the player object, allowing for option to add AI players
         char decision = player->makeDecision();
         switch (decision)
         {
         case 'h':
             hit(player);
+            this_thread::sleep_for(chrono::seconds(1));
+            cout << "You have " << player->showCardsShort() << ", value " << player->getHandValue() << "\n";
             /* code */
             break;
         case 's':
-            stand = true;
+            finished = true;
             break;
         default:
             cout << "Error: please enter a valid char\n";
@@ -138,7 +154,10 @@ void BlackJack::takeTurn(Player *player)
 // Hit the player with another card
 void BlackJack::hit(Player *player)
 {
-    player->dealCard(deck.drawCard());
+    Card c = deck.drawCard();
+    this_thread::sleep_for(chrono::seconds(1));
+    cout << player->getName() << " drew " << c.showValueShort() << "\n";
+    player->dealCard(c);
 };
 
 char BlackJack::determineResult(int playerHand, int dealerHand)

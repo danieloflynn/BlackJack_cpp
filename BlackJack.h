@@ -21,7 +21,9 @@ public:
     BlackJack();
     void play();
     std::string getPlayerNames();
-    void hit();
+    void takeTurn(Player *player);
+    void hit(Player *player);
+    char determineResult(int playerHand, int dealerHand);
 };
 
 #endif

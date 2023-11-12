@@ -77,36 +77,38 @@ void BlackJack::play()
         int dealerHand = dealer.getHandValue();
         for (Player &player : players)
         {
-
-            int playerHand = player.getHandValue();
-            char result = determineResult(playerHand, dealerHand);
-
-            switch (result)
+            for (int handNo = 0; handNo < player.numHands(); handNo++)
             {
-            case 'w':
-                cout << player.getName() << " wins " << player.currentBet << "\n";
-                player.win();
-                break;
-            case 'l':
-                cout << player.getName() << " loses \n";
-                player.lose();
-                break;
-            case 'p':
-                cout << player.getName() << " draws \n";
-                player.push();
-                break;
-            case 'b':
-                cout << player.getName() << ": BlackJack! \n";
-                player.blackJack();
-                break;
+                int playerHand = player.getHandValue(handNo);
+                char result = determineResult(playerHand, dealerHand);
 
-            default:
-                break;
+                switch (result)
+                {
+                case 'w':
+                    cout << player.getName() << " wins " << player.currentBet << "\n";
+                    player.win();
+                    break;
+                case 'l':
+                    cout << player.getName() << " loses \n";
+                    player.lose();
+                    break;
+                case 'p':
+                    cout << player.getName() << " draws \n";
+                    player.push();
+                    break;
+                case 'b':
+                    cout << player.getName() << ": BlackJack! \n";
+                    player.blackJack();
+                    break;
+
+                default:
+                    break;
+                }
+
+                cout << player.getName() << " has " << player.getCash() << " cash\n";
             }
-
-            cout << player.getName() << " has " << player.getCash() << " cash\n";
         }
-        cout << "You're done";
+        cout << "You're done \n";
     } while (true);
 };
 
@@ -157,6 +159,7 @@ void BlackJack::takeTurn(Player *player)
 
             case 'f': // surrender
                 player->surrender(handNo);
+                finished = true;
                 break;
             default:
                 cout << "Error: please enter a valid char\n";

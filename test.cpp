@@ -14,9 +14,18 @@ int main()
 {
     // Initialize the players
 
-    // Player player(1000);
+    Player player(1000);
     // Deck deck;
-    // player.dealCards(deck.drawCards(2));
+    Card c(1, 1);
+    Card d(1, 3);
+    Card e(2, 4);
+    player.clearHands();
+    player.dealCard(c);
+    player.dealCard(c);
+    player.makeDecision(0);
+    player.split(0, {d, e});
+    cout << player.showCardsShort(0) << "\n";
+    cout << player.showCardsShort(1) << "\n";
 
     // string name = player.getName();
     // cout << "It's " << name << "'s turn.\n";
@@ -24,8 +33,8 @@ int main()
     // int i = player.getHandValue();
     // cout << "You have" << player.showCardsShort() << ", value " << player.getHandValue() << "\n";
 
-    BlackJack B;
-    B.play();
+    // BlackJack B;
+    // B.play();
 
     return 0;
 }

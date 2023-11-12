@@ -33,14 +33,14 @@ public:
     void dealCard(Card card, int handNo = 0);
     void dealCards(std::vector<Card> cards, int handNo = 0);
     void clearHands();
+    void split(int handNo, std::vector<Card> cards);
     std::string showCardsShort(int handNo = 0);
     int getHandValue(int handNo = 0);
     bool isBlackJack(int handNo = 0);
     void makeBet(int handNo = 0);
     bool canSplit(int handNo = 0);
-    bool canSplit(int handNo = 0);
     bool canSurrender(int handNo = 0);
-    void getOptions();
+    std::vector<char> getOptions(int handNo = 0);
     virtual char makeDecision(int handNo = 0);
     void newTurn();
     void win(int handNo = 0);

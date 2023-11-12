@@ -124,30 +124,38 @@ void BlackJack::takeTurn(Player *player)
 {
     bool finished = false;
     string name = player->getName();
-    while (player->getHandValue() < 21 && !finished)
+    int handNo = 0;
+    while (handNo < player->numHands())
     {
-        // Decision goes out to the player object, allowing for option to add AI players
-        char decision = player->makeDecision();
-        switch (decision)
+        while (player->getHandValue(handNo) < 21 && !finished)
         {
-        case 'h':
-            hit(player);
-            this_thread::sleep_for(chrono::seconds(1));
-            cout << "You have " << player->showCardsShort() << ", value " << player->getHandValue() << "\n";
-            /* code */
-            break;
-        case 's':
-            finished = true;
-            break;
-        default:
-            cout << "Error: please enter a valid char\n";
-            break;
-        }
-    }
+            // Decision goes out to the player object, allowing for option to add AI players
+            char decision = player->makeDecision(handNo);
+            switch (decision)
+            {
+            case 'h': // hit
+                hit(player);
+                this_thread::sleep_for(chrono::seconds(1));
+                cout << "You have " << player->showCardsShort(handNo) << ", value " << player->getHandValue(handNo) << "\n";
+                break;
 
-    if (player->getHandValue() > 21)
-    {
-        cout << name << " has gone bust \n";
+            case 's': // stand
+                finished = true;
+                break;
+
+            case 'x': // split
+                player->split(handNo, deck.drawCards(2));
+                break;
+            default:
+                cout << "Error: please enter a valid char\n";
+                break;
+            }
+        }
+        if (player->getHandValue(handNo) > 21)
+        {
+            cout << name << " has gone bust \n";
+        }
+        handNo++;
     }
 };
 

@@ -19,6 +19,7 @@ public:
 
     void dealCard(Card card);
     void dealCards(std::vector<Card> cards);
+    Card removeCard();
     void clearHand();
     std::string showCardsShort();
     void updateHandValue();
@@ -26,7 +27,7 @@ public:
     bool isBlackJack();
     void makeBet(float bet);
     bool canSplit();
-    void getOptions();
+    bool canSurrender();
 };
 
 #endif

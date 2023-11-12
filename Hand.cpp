@@ -44,6 +44,13 @@ void Hand::dealCards(vector<Card> cards)
     updateHandValue();
 };
 
+Card Hand::removeCard()
+{
+    Card c = cardsHeld.back();
+    cardsHeld.pop_back();
+    return c;
+}
+
 void Hand::clearHand()
 {
     cardsHeld.clear();
@@ -100,4 +107,18 @@ bool Hand::isBlackJack()
 void Hand::makeBet(float bet)
 {
     currentBet += bet;
+}
+
+bool Hand::canSplit()
+{
+    if (cardsHeld.size() == 2 && cardsHeld[0].getValue() == cardsHeld[1].getValue())
+    {
+        return true;
+    }
+    return false;
+}
+
+bool Hand::canSurrender()
+{
+    return cardsHeld.size() == 2;
 }

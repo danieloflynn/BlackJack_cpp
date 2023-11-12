@@ -20,6 +20,7 @@ private:
 public:
     BlackJack();
     void play();
+    void initGame();
     std::string getPlayerNames();
     void takeTurn(Player *player);
     void hit(Player *player);

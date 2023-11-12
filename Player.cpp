@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -6,7 +7,7 @@
 
 #include "card.h"
 #include "player.h"
-#include "hand.h"
+#include "Hand.h"
 
 using namespace std;
 
@@ -18,7 +19,6 @@ Player::Player(float cash)
 {
     hands = {};
     handValue = 0;
-    cardsHeld = {};
     Player();
     currentBet = 0;
     cout << "Please enter your name: ";
@@ -53,6 +53,11 @@ float Player::getCash()
 {
     return cash;
 };
+
+int Player::numHands()
+{
+    return hands.size();
+}
 
 // Adds hand, used for splits
 void Player::addHand()
@@ -93,6 +98,26 @@ void Player::clearHands()
     Hand h;
     hands = {h};
 };
+
+void Player::clearHand(int handNo)
+{
+    hands.erase(hands.begin() + handNo);
+}
+
+void Player::split(int handNo, vector<Card> cards)
+{
+    Card c = hands[handNo].removeCard();
+    addHand();
+    int hand2No = hands.size() - 1;
+    cout << name << " drew " << cards[0].showValueShort() << "\n";
+    hands[handNo].dealCard(cards[0]);
+
+    float betAmount = hands[handNo].currentBet;
+    cout << betAmount << " bet on hand " << hand2No << "\n";
+    hands[hand2No].dealCard(c);
+    hands[hand2No].dealCard(cards[1]);
+    hands[hand2No].makeBet(betAmount);
+}
 
 int Player::getHandValue(int handNo)
 {
@@ -139,16 +164,55 @@ void Player::makeBet(int handNo)
     cash -= betAmount;
 };
 
-void Player::getOptions(){
-    // TODO: Add options for the player to have.
+bool Player::canSplit(int handNo)
+{
+    return hands[handNo].canSplit() && cash >= hands[handNo].currentBet;
+}
+
+bool Player::canSurrender(int handNo)
+{
+    return hands[handNo].canSurrender();
+}
+
+vector<char> Player::getOptions(int handNo)
+{
+    string outText = "type h to hit, s to stand";
+    vector<char> options = {'h', 's'};
+    if (canSplit(handNo))
+    {
+        outText += ", x to split";
+        options.push_back('x');
+    }
+    if (canSurrender(handNo))
+    {
+        outText += ", f to surrender";
+        options.push_back('f');
+    }
+    outText += ": ";
+    cout << outText;
+    return options;
 };
 
 char Player::makeDecision(int handNo)
 {
-    // getoptions();
-    cout << "type h to hit, s to stand: ";
+    vector<char> options = getOptions(handNo);
     char response;
-    cin >> response;
+    do
+    {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin >> response;
+        if (cin.fail())
+        {
+            cout << "Error: value not recognised.\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+        else if (find(options.begin(), options.end(), response) == options.end())
+        {
+            cout << "Error: Please enter a valid value \n";
+        }
+    } while (find(options.begin(), options.end(), response) == options.end());
     return response;
 };
 
@@ -164,6 +228,12 @@ void Player::win(int handNo)
 void Player::lose(int handNo)
 {
     // Do nothing for now
+}
+
+void Player::surrender(int handNo)
+{
+    cash += hands[handNo].currentBet / 2;
+    clearHand(handNo);
 }
 
 void Player::push(int handNo)

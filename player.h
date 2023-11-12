@@ -32,6 +32,7 @@ public:
     void addHand();
     void dealCard(Card card, int handNo = 0);
     void dealCards(std::vector<Card> cards, int handNo = 0);
+    void clearHand(int handNo);
     void clearHands();
     void split(int handNo, std::vector<Card> cards);
     std::string showCardsShort(int handNo = 0);
@@ -45,6 +46,7 @@ public:
     void newTurn();
     void win(int handNo = 0);
     void lose(int handNo = 0);
+    void surrender(int handNo = 0);
     void push(int handNo = 0);
     void blackJack(int handNo = 0);
 };

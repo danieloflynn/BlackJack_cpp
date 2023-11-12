@@ -99,6 +99,11 @@ void Player::clearHands()
     hands = {h};
 };
 
+void Player::clearHand(int handNo)
+{
+    hands.erase(hands.begin() + handNo);
+}
+
 void Player::split(int handNo, vector<Card> cards)
 {
     Card c = hands[handNo].removeCard();
@@ -223,6 +228,12 @@ void Player::win(int handNo)
 void Player::lose(int handNo)
 {
     // Do nothing for now
+}
+
+void Player::surrender(int handNo)
+{
+    cash += hands[handNo].currentBet / 2;
+    clearHand(handNo);
 }
 
 void Player::push(int handNo)

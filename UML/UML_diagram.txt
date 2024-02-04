@@ -1,31 +1,116 @@
 @startuml
 
+@startuml
 class BlackJack {
-    - numPlayers : int
-    - players : std::vector<Player>
-    - dealer : Dealer
-    - deck : Deck
-    + play() : void
-    + initGame() : void
-    + getPlayerNames() : std::string
-    + takeTurn(Player *player) : void
-    + hit(Player *player) : void
-    + determineResult(int playerHand, int dealerHand) : char
-    }
-class Player {
+  - numPlayers: int
+  - players: std::vector<Player>
+  - dealer: Dealer
+  - deck: Deck
+  + BlackJack()
+  + play()
+  + getPlayerNames(): std::string
+  + takeTurn(player: Player*)
+  + hit(player: Player*)
+  + determineResult(playerHand: int, dealerHand: int): char
 }
-class Dealer
-class Deck
-class Hand
-class Card
+
+class Player {
+  - name: std::string
+  - cash: float
+  - cardsHeld: std::vector<Card>
+  - hands: std::vector<Hand>
+  - isSoft: bool
+  - currentBet: float
+  + Player()
+  + Player(cash: float)
+  + getName(): std::string
+  + getCash(): float
+  + numHands(): int
+  + addHand()
+  + dealCard(card: Card, handNo: int = 0)
+  + dealCards(cards: std::vector<Card>, handNo: int = 0)
+  + clearHand(handNo: int)
+  + clearHands()
+  + split(handNo: int, cards: std::vector<Card>)
+  + showCardsShort(handNo: int = 0): std::string
+  + getHandValue(handNo: int = 0): int
+  + isBlackJack(handNo: int = 0): bool
+  + makeBet(handNo: int = 0)
+  + canSplit(handNo: int = 0): bool
+  + canSurrender(handNo: int = 0): bool
+  + makeDecision(handNo: int = 0): char
+  + newTurn()
+  + win(handNo: int = 0)
+  + lose(handNo: int = 0)
+  + surrender(handNo: int = 0)
+  + push(handNo: int = 0)
+  + blackJack(handNo: int = 0)
+}
+
+class Dealer {
+  - cardValues: std::unordered_map<std::string, int>
+  + Dealer()
+  + oneCard(): std::string
+  + makeDecision(handNo: int = 0): char
+}
+
+class Hand {
+  - cardValues: std::unordered_map<std::string, int>
+  + handValue: int
+  + cardsHeld: std::vector<Card>
+  + currentBet: float
+  + Hand()
+  + dealCard(card: Card)
+  + dealCards(cards: std::vector<Card>)
+  + removeCard(): Card
+  + clearHand()
+  + showCardsShort(): std::string
+  + updateHandValue()
+  + getHandValue(): int
+  + isBlackJack(): bool
+  + makeBet(bet: float)
+  + canSplit(): bool
+  + canSurrender(): bool
+}
+
+class Deck {
+  - cards: std::vector<Card>
+  - originalCards: std::vector<Card>
+  + Deck()
+  + drawCard(): Card
+  + drawCards(numCards: int): std::vector<Card>
+  + revealCards()
+  + shuffleCards()
+  + newDeck()
+  + resetDeck()
+}
+
+class Card {
+  - suits: std::vector<std::string>
+  - shortSuits: std::vector<std::string>
+  - values: std::vector<std::string>
+  - shortValues: std::vector<std::string>
+  - suitidx: int
+  - valueidx: int
+  - suit: std::string
+  - value: std::string
+  + Card(suitidx: int, valueidx: int)
+  + getValue(): std::string
+  + getSuit(): std::string
+  + get(): std::string
+  + showValueShort(): std::string
+  + showSuitShort(): char
+  + getValueidx(): int
+  + getSuitidx(): int
+}
 
 BlackJack *-- Dealer
 BlackJack "1" *-- "1...*" Player
 BlackJack *-- Deck
 Player <|-- Dealer
 Dealer *-- Hand
-Player *-- Hand
-Deck "1" *-- "*" Card
-Hand "1" *-- "0...*" Card
+Player "1" *-- "1...*" Hand
+Deck "1" o-- "*" Card
+Hand "1" o-- "0...*" Card
 
 @enduml

@@ -14,14 +14,15 @@ class Player
 protected:
     std::string name;
     float cash;
+    std::vector<Card> cardsHeld;
+    int handValue;
+    std::vector<Hand> hands;
+    bool isSoft;
+    std::vector<char> getOptions(int handNo = 0);
 
 private:
 public:
-    int handValue;
-    std::vector<Card> cardsHeld;
-    std::vector<Hand> hands;
     float currentBet;
-    bool isSoft;
     static std::unordered_map<std::string, int> cardValues;
     Player();
     Player(float cash);
@@ -40,7 +41,6 @@ public:
     void makeBet(int handNo = 0);
     bool canSplit(int handNo = 0);
     bool canSurrender(int handNo = 0);
-    std::vector<char> getOptions(int handNo = 0);
     virtual char makeDecision(int handNo = 0);
     void newTurn();
     void win(int handNo = 0);

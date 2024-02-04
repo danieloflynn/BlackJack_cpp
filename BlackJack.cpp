@@ -108,14 +108,8 @@ void BlackJack::play()
                 cout << player.getName() << " has " << player.getCash() << " cash\n";
             }
         }
-        cout << "You're done \n";
     } while (true);
 };
-
-void BlackJack::initGame()
-{
-    // TODO: add initializer here
-}
 
 // Get a list of player names
 string BlackJack::getPlayerNames()

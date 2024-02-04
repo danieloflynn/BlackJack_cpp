@@ -6,7 +6,7 @@ This C++ code implements a simple console-based Blackjack (21) game. The game is
 
 ## Class diagram
 
-![Class Diagram](./UML_diagram.png)
+![Class Diagram](./UML/UML_diagram.png)
 
 ## How to Run
 

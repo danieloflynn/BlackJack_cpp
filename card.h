@@ -7,9 +7,7 @@
 
 class Card
 {
-
-public:
-    Card(int suitidx, int valueidx);
+private:
     std::vector<std::string> suits;
     std::vector<std::string> shortSuits;
     std::vector<std::string> values;
@@ -18,6 +16,9 @@ public:
     int valueidx;
     std::string suit;
     std::string value;
+
+public:
+    Card(int suitidx, int valueidx);
     std::string getValue();
     std::string getSuit();
     std::string get();

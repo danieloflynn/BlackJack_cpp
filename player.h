@@ -18,11 +18,11 @@ protected:
     std::vector<Hand> hands;
     bool isSoft;
     std::vector<char> getOptions(int handNo = 0);
+    static std::unordered_map<std::string, int> cardValues;
 
 private:
 public:
     float currentBet;
-    static std::unordered_map<std::string, int> cardValues;
     Player();
     Player(float cash);
     std::string getName();

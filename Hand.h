@@ -10,12 +10,14 @@
 
 class Hand
 {
+private:
+    static std::unordered_map<std::string, int> cardValues;
+
 public:
-    Hand();
     int handValue;
+    Hand();
     std::vector<Card> cardsHeld;
     float currentBet;
-    static std::unordered_map<std::string, int> cardValues;
 
     void dealCard(Card card);
     void dealCards(std::vector<Card> cards);

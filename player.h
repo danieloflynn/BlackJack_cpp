@@ -20,7 +20,6 @@ public:
     int handValue;
     std::vector<Card> cardsHeld;
     std::vector<Hand> hands;
-
     float currentBet;
     bool isSoft;
     static std::unordered_map<std::string, int> cardValues;

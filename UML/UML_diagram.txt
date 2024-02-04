@@ -1,0 +1,31 @@
+@startuml
+
+class BlackJack {
+    - numPlayers : int
+    - players : std::vector<Player>
+    - dealer : Dealer
+    - deck : Deck
+    + play() : void
+    + initGame() : void
+    + getPlayerNames() : std::string
+    + takeTurn(Player *player) : void
+    + hit(Player *player) : void
+    + determineResult(int playerHand, int dealerHand) : char
+    }
+class Player {
+}
+class Dealer
+class Deck
+class Hand
+class Card
+
+BlackJack *-- Dealer
+BlackJack "1" *-- "1...*" Player
+BlackJack *-- Deck
+Player <|-- Dealer
+Dealer *-- Hand
+Player *-- Hand
+Deck "1" *-- "*" Card
+Hand "1" *-- "0...*" Card
+
+@enduml

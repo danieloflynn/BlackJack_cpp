@@ -18,7 +18,6 @@ Player::Player()
 Player::Player(float cash)
 {
     hands = {};
-    handValue = 0;
     Player();
     currentBet = 0;
     cout << "Please enter your name: ";

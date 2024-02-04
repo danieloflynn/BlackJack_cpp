@@ -15,7 +15,6 @@ protected:
     std::string name;
     float cash;
     std::vector<Card> cardsHeld;
-    int handValue;
     std::vector<Hand> hands;
     bool isSoft;
     std::vector<char> getOptions(int handNo = 0);
